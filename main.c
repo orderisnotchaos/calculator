@@ -31,7 +31,7 @@ if(argv[1]==NULL){
 	}
 
 }else{
-//	puts("asdad");
+
 	f=fopen(argv[1],"r");
 	s=fopen("data_out","ab");
 
@@ -41,7 +41,6 @@ if(argv[1]==NULL){
 		exit(1);
 	}
 
-//	puts("asdasd");
 	while( fixedGets(buffer,f)!=NULL ){
 
 		if( buffer!=NULL ){

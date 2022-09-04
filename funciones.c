@@ -152,6 +152,7 @@ while( pivote!=NULL ){
 
 pivote=pivote->sig;
 }
+
 pivote=cuenta;
 while( pivote!=NULL ){
 
@@ -166,14 +167,11 @@ while( pivote!=NULL ){
             first_pos_controler=operar(pivote,pivote->u.c);
 			if(first_pos_controler){cuenta=pivote;}
         }
-
 	}
-
-pivote=pivote->sig;
+	pivote=pivote->sig;
 }
 
 pivote=cuenta;
-
 while(pivote!=NULL){
 		if(pivote->u.c=='+'||pivote->u.c=='-'){
 
@@ -197,14 +195,13 @@ return output;
 }
 
 int operar(Dato *pivote,char operador){
-int i,first_pos_controler=0;
-Dato *cuenta;
-cuenta=pivote;
+	int i,first_pos_controler=0;
+	Dato *cuenta;
+	cuenta=pivote;
 
-while( cuenta->ant!=NULL ){
-cuenta=cuenta->ant;
-}
-//printf("%f\n",cuenta->u.f);
+	while( cuenta->ant!=NULL ){
+	cuenta=cuenta->ant;
+	}
 
 	switch(operador){
 		case 94:
@@ -225,9 +222,10 @@ cuenta=cuenta->ant;
 	}
         pivote->u.f= (*puntero_operacion[i])((pivote->ant)->u.f,(pivote->sig)->u.f);
         if(pivote->ant==cuenta){
-			cuenta=pivote;
+
 			first_pos_controler=1;
 		}
+
         pivote->ant=(pivote->ant)->ant;
         if(pivote->ant!=NULL){(pivote->ant)->sig=pivote;}
         pivote->sig=(pivote->sig)->sig;
