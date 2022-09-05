@@ -1,4 +1,4 @@
-SRC= funciones.c main.c operadores.c
+SRC= functions.c main.c operators.c
 OBJS= prog 
 
 all:$(SRC)

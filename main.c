@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "funciones.h"
+#include "functions.h"
 
 int main(int argc,char **argv){
 char buffer[MAX_DATA_SIZE];
@@ -11,22 +11,22 @@ int n=1;
 FILE *f,*s;
 if(argv[1]==NULL){
 	printf("======================\n");
-	printf("Bienvenido a la calculadora recursiva\n");
+	printf("Welcome to the recursive calculator\n");
 	printf("======================\n\n");
-	printf("si desea pasar las cuentas por archivo ejecute ./prog [su_archivo]\n");
+	printf("if you wish to pass the accounts via file execute ./prog [your_file]\n");
 
-	printf("escriba lo que desee calcular:\n");
+	printf("write what you wish to calculate:\n");
 	fixedGets(buffer,stdin);
-	r=calcular(buffer);
-	printf("su resultado: %.2f\n",r);
+	r=calculate(buffer);
+	printf("your result: %.2f\n",r);
 	while(1){
-		printf("¿Desea hacer otra cuenta? presione s/n\n");
+		printf("Do you wish to calculate something else? press y/n\n");
 		a=getC();
 		if(a=='n') break;
-		printf("escriba lo que desee calcular: \n");
+		printf("write what you wish to calculate: \n");
 		fixedGets(buffer,stdin);
-	        r=calcular(buffer);
-		printf("su resultado: %.2f\n",r);
+	        r=calculate(buffer);
+		printf("your result: %.2f\n",r);
 
 	}
 
@@ -36,7 +36,7 @@ if(argv[1]==NULL){
 	s=fopen("data_out","ab");
 
 	if(f==NULL){
-		printf("dirección inválida.\n");
+		printf("invalid address.\n");
 		fclose(f);
 		exit(1);
 	}
@@ -44,8 +44,8 @@ if(argv[1]==NULL){
 	while( fixedGets(buffer,f)!=NULL ){
 
 		if( buffer!=NULL ){
-			r=calcular(buffer);
-			fprintf(s,"%d° resultado: %.2f\n",n,r);
+			r=calculate(buffer);
+			fprintf(s,"%d° result: %.2f\n",n,r);
 			printf(PRINT_VALUE,n,r);
 			n++;
 		}else{

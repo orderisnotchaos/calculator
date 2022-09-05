@@ -1,17 +1,17 @@
-#include "funciones.h"
+#include "functions.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <ctype.h>
 
-void listar(Dato *lista){
+void list(Data *lista){
 int i=0;
 while( lista!=NULL ){
-printf("subciclo número: %d\n",i);
+printf("subcicle number: %d\n",i);
 printf("%.2f\n",lista->u.f);
 printf("%c\n",lista->u.c);
-lista=lista->sig;
+lista=lista->next;
 i++;
 }
 
@@ -33,23 +33,23 @@ char *r;
 return r;
 }
 
-float sumar(float a,float b){
+float add(float a,float b){
 
 return a+b;
 }
-float potencia(float a,float b){
+float power(float a,float b){
 
 return pow(a,b);
 }
-float restar(float a,float b){
+float subtract(float a,float b){
 
 return a-b;
 }
-float multiplicar(float a,float b){
+float multiply(float a,float b){
 
 return a*b;
 }
-float dividir(float a,float b){
+float divide(float a,float b){
 
 return a/b;
 }
@@ -128,12 +128,12 @@ char buffer[MAX_DATA_SIZE];
                 fixedGets(buffer,stdin);
 
                 if(strlen(buffer)>1){
-                        printf("ingrese una sola letra\n");
+                        printf("insert one letter\n");
 			continue;
                 }
                 c= *buffer;
                 if( c!='s' && c!='n' ){
-                        printf("opción inválida.\n");
+                        printf("invalid option.\n");
                 }else{
                         break;
                 }

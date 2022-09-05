@@ -1,20 +1,20 @@
-#include "funciones.h"
+#include "functions.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
 
 
-float (*puntero_operacion[])(float,float)={sumar,restar,multiplicar,dividir,potencia};
+float (*operation_pointer[])(float,float)={add,subtract,multiply,divide,power};
 
-float calcular( char *input ){
+float calculate( char *input ){
 
 char buffer[MAX_DATA_SIZE];
 char *numb=NULL;
 float output,par_value;
 int i,j,a,first_pos_controler;
-Dato *cuenta=NULL;
-Dato *pivote=NULL;
+Data *account=NULL;
+Data *pivot=NULL;
 i=0;
 j=0;
 a=0;
@@ -27,18 +27,18 @@ if ( isParOk(input) ){
 
 while( *(input+i)!='\0' ){
 
-		if( cuenta==NULL ){
-			cuenta= (Dato *)malloc(sizeof(Dato));
-			if(cuenta == NULL ){
+		if( account==NULL ){
+			account= (Data *)malloc(sizeof(Data));
+			if(account == NULL ){
 				printf("memory allocation error\n");
 				exit(1);
 			}
-			cuenta->sig=NULL;
-			cuenta->ant=NULL;
-			pivote=cuenta;
+			account->next=NULL;
+			account->prev=NULL;
+			pivot=account;
 
 	        if( !(isoperator(*(input+i)) || isDigit(*(input+i)) ) ){
-            	printf("sintaxis incorrecta\n");
+            	printf("syntax error\n");
                 exit(1);
             }
 
@@ -52,7 +52,7 @@ while( *(input+i)!='\0' ){
 				}
 
 				i+=j-1;
-				cuenta->u.f=atof(numb);
+				account->u.f=atof(numb);
 				free(numb);
 			}
 
@@ -74,28 +74,28 @@ while( *(input+i)!='\0' ){
 		                j++;
                     }
 					i+=j-1;
-					cuenta->u.f=calcular(numb);
+					account->u.f=calculate(numb);
 					free(numb);
 
 				}else{
-					cuenta->u.c= *(input+i);
+					account->u.c= *(input+i);
 				}
 			}
 
 		}else{
 
-			pivote->sig=(Dato *)malloc(sizeof(Dato));
-			if( pivote->sig==NULL ){
+			pivot->next=(Data *)malloc(sizeof(Data));
+			if( pivot->next==NULL ){
 				printf("memory allocation error\n");
 				exit(1);
 			}
-			(pivote->sig)->ant = pivote;
-			(pivote->sig)->sig = NULL;
-			pivote=pivote->sig;
+			(pivot->next)->prev = pivot;
+			(pivot->next)->next = NULL;
+			pivot=pivot->next;
 
 
             if( !( isoperator(*(input+i)) || isDigit(*(input+i)) ) ){
-                printf("sintaxis incorrecta\n");
+                printf("syntax error\n");
                 exit(1);
             }
 
@@ -109,7 +109,7 @@ while( *(input+i)!='\0' ){
         		    j++;
 		        }
 				i+=j-1;
-		        pivote->u.f=atof(numb);
+		        pivot->u.f=atof(numb);
 				free(numb);
 			}
 
@@ -129,11 +129,11 @@ while( *(input+i)!='\0' ){
                         j++;
                     }
 					i+=j-1;
-					pivote->u.f=calcular(numb);
+					pivot->u.f=calculate(numb);
 					free(numb);
                 }else{
 
-					pivote->u.c = *(input+i);
+					pivot->u.c = *(input+i);
 				}
 			}
 		}
@@ -141,69 +141,69 @@ while( *(input+i)!='\0' ){
 	i++;
 }
 
-pivote=cuenta;
-while( pivote!=NULL ){
+pivot=account;
+while( pivot!=NULL ){
 
-	if(pivote->u.c==94){
-		//se efectua la potenciación
-		first_pos_controler=operar(pivote,pivote->u.c);
-		if(first_pos_controler){cuenta=pivote;}
+	if(pivot->u.c==94){
+		//power is executed
+		first_pos_controler=operate(pivot,pivot->u.c);
+		if(first_pos_controler){account=pivot;}
  	}
 
-pivote=pivote->sig;
+pivot=pivot->next;
 }
 
-pivote=cuenta;
-while( pivote!=NULL ){
+pivot=account;
+while( pivot!=NULL ){
 
-	if(pivote->u.c=='*'|| pivote->u.c=='/'){
+	if(pivot->u.c=='*'|| pivot->u.c=='/'){
 
-        if(pivote->u.c=='*'){
-		//se efectua la multiplicacion
-            first_pos_controler=operar(pivote,pivote->u.c);
-			if(first_pos_controler){cuenta=pivote;}
+        if(pivot->u.c=='*'){
+		//multiplication is produced
+            first_pos_controler=operate(pivot,pivot->u.c);
+			if(first_pos_controler){account=pivot;}
         }else{
-		//se efectua la division
-            first_pos_controler=operar(pivote,pivote->u.c);
-			if(first_pos_controler){cuenta=pivote;}
+		//division is produced
+            first_pos_controler=operate(pivot,pivot->u.c);
+			if(first_pos_controler){account=pivot;}
         }
 	}
-	pivote=pivote->sig;
+	pivot=pivot->next;
 }
 
-pivote=cuenta;
-while(pivote!=NULL){
-		if(pivote->u.c=='+'||pivote->u.c=='-'){
+pivot=account;
+while(pivot!=NULL){
+		if(pivot->u.c=='+'||pivot->u.c=='-'){
 
-			if(pivote->u.c=='+'){
-			//se efectua la suma
-				first_pos_controler=operar(pivote,pivote->u.c);
-				if(first_pos_controler){cuenta=pivote;}
+			if(pivot->u.c=='+'){
+			//adding is produced
+				first_pos_controler=operate(pivot,pivot->u.c);
+				if(first_pos_controler){account=pivot;}
 
 			}else{
-			//se efectua la resta
-				first_pos_controler=operar(pivote,pivote->u.c);
-				if(first_pos_controler){cuenta=pivote;}
+			//substraction is produced
+				first_pos_controler=operate(pivot,pivot->u.c);
+				if(first_pos_controler){account=pivot;}
 
 			}
 		}
 
-pivote=pivote->sig;
+pivot=pivot->next;
 }
-output=cuenta->u.f;
+output=account->u.f;
 return output;
 }
 
-int operar(Dato *pivote,char operador){
+int operate(Data *pivot,char operator){
 	int i,first_pos_controler=0;
-	Dato *cuenta;
-	cuenta=pivote;
+	Data *account;
+	account=pivot;
 
-	while( cuenta->ant!=NULL ){
-	cuenta=cuenta->ant;
+	while( account->prev!=NULL ){
+	account=account->prev;
 	}
 
-	switch(operador){
+	switch(operator){
 		case 94:
 			 i=4;
 			break;
@@ -220,16 +220,16 @@ int operar(Dato *pivote,char operador){
 			i=3;
 			break;
 	}
-        pivote->u.f= (*puntero_operacion[i])((pivote->ant)->u.f,(pivote->sig)->u.f);
-        if(pivote->ant==cuenta){
+        pivot->u.f= (*operation_pointer[i])((pivot->prev)->u.f,(pivot->next)->u.f);
+        if(pivot->prev==account){
 
 			first_pos_controler=1;
 		}
 
-        pivote->ant=(pivote->ant)->ant;
-        if(pivote->ant!=NULL){(pivote->ant)->sig=pivote;}
-        pivote->sig=(pivote->sig)->sig;
-        if(pivote->sig!=NULL) {(pivote->sig)->ant=pivote;}
+        pivot->prev=(pivot->prev)->prev;
+        if(pivot->prev!=NULL){(pivot->prev)->next=pivot;}
+        pivot->next=(pivot->next)->next;
+        if(pivot->next!=NULL) {(pivot->next)->prev=pivot;}
 return first_pos_controler;
 }
 
